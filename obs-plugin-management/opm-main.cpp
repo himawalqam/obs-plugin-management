@@ -35,7 +35,7 @@ static void obs_add_plugin_button()
 	if (!layout) {
 		// If the layout is not vertical, create a new vertical layout.
 		layout = new QVBoxLayout(parentWidget);
-		parentWidget->setLayout(layout);
+		parentWidget->setLayout(layout );
 	}
 
 	// Insert the new button above the Start streaming button.
