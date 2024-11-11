@@ -78,7 +78,8 @@
 copy /Y "$(OutDir)\obs-plugin-management.exp" "D:\work-for-webrtc\obs-studio\build64\rundir\Debug\obs-plugins\64bit\obs-plugin-management.exp"
 copy /Y "$(OutDir)\obs-plugin-management.pdb" "D:\work-for-webrtc\obs-studio\build64\rundir\Debug\obs-plugins\64bit\obs-plugin-management.pdb"
 copy /Y "$(OutDir)\obs-plugin-management.lib" "D:\work-for-webrtc\obs-studio\build64\rundir\Debug\obs-plugins\64bit\obs-plugin-management.lib"
-</Command>
+mkdir "D:\work-for-webrtc\obs-studio\build64\rundir\Debug\data\obs-plugins\obs-plugin-management\"
+xcopy /E /Y "$(ProjectDir)data\" "D:\work-for-webrtc\obs-studio\build64\rundir\Debug\data\obs-plugins\obs-plugin-management\"</Command>
       <Message>Installing obs-plugin-management to OBS rundir</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
