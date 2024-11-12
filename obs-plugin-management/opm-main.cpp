@@ -44,7 +44,7 @@ static void obs_add_plugin_button()
 	// Set the click event for the new button
 	QObject::connect(newButton, &QPushButton::clicked, []() {
 		obs_frontend_push_ui_translation(obs_module_get_string);
-		blog(LOG_INFO, "The button clicked!");
+		blog(LOG_INFO, "The button now clicked!");
 		obs_frontend_pop_ui_translation();
 	});
 }
