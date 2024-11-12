@@ -31,8 +31,7 @@ static void obs_add_plugin_button()
 
 	// Get the parent layout of the "Start streaming" button.
 	QWidget *parentWidget = startStreamingButton->parentWidget();
-	QVBoxLayout *layout =
-		qobject_cast<QVBoxLayout *>(parentWidget->layout());
+	QVBoxLayout *layout =qobject_cast<QVBoxLayout *>(parentWidget->layout());
 	if (!layout) {
 		// If the layout is not vertical, create a new vertical layout.
 		layout = new QVBoxLayout(parentWidget);
