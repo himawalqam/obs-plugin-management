@@ -39,7 +39,7 @@ static void obs_add_plugin_button()
 	}
 
 	// Insert the new button above the Start streaming button.
-	layout->insertWidget(0, newButton);
+	layout->insertWidget(0, newButton );
 
 	// Set the click event for the new button
 	QObject::connect(newButton, &QPushButton::clicked, []() {
