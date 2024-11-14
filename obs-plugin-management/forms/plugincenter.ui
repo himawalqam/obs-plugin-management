@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>OBSPluginManagement</class>
+ <widget class="QDialog" name="OBSPluginManagement">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -28,10 +28,10 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QLineEdit" name="lineEdit"/>
+        <widget class="QLineEdit" name="searchEdit"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="searchButton">
          <property name="text">
           <string>Search</string>
          </property>
@@ -78,7 +78,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="pluginInfo">
          <property name="maximumSize">
           <size>
            <width>16777215</width>
@@ -86,7 +86,7 @@
           </size>
          </property>
          <property name="text">
-          <string>TextLabel</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -114,7 +114,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="website">
          <property name="text">
           <string>https://www.test.com</string>
          </property>

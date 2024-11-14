@@ -23,15 +23,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="opm-main.cpp">
+    <ClCompile Include="opm_main_window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="moc_OPMMainWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="opm-plugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="opm-main.h">
+    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="ui_plugincenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="opm_main_window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="opm-plugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,9 +4,20 @@
 #include <QPushButton>
 #include <QObject>
 #include <QVBoxLayout>
+#include "opm_main_window.h"
+
+OPMMainWindow *_opmWindow = nullptr;
 
 OBS_DECLARE_MODULE( )
 OBS_MODULE_USE_DEFAULT_LOCALE("obs-plugin-management", "en-US")
+
+static void create_plugin_center_window() {
+	QWidget *window = (QWidget *)obs_frontend_get_main_window();
+
+	obs_frontend_push_ui_translation(obs_module_get_string);
+	_opmWindow = new OPMMainWindow(window);
+	obs_frontend_pop_ui_translation();
+}
 
 // Add button function
 static void obs_add_plugin_button()
@@ -43,9 +54,12 @@ static void obs_add_plugin_button()
 
 	// Set the click event for the new button
 	QObject::connect(newButton, &QPushButton::clicked, []() {
-		obs_frontend_push_ui_translation(obs_module_get_string);
-		blog(LOG_INFO, "The button now clicked!");
-		obs_frontend_pop_ui_translation();
+		//obs_frontend_push_ui_translation(obs_module_get_string);
+		blog(LOG_INFO, "plugin center is clicked!");
+		if (_opmWindow) {
+			_opmWindow->showOPMWindow();
+		}
+		//obs_frontend_pop_ui_translation();
 	});
 }
 
@@ -81,7 +95,7 @@ void obs_module_post_load(void)
 	if (!obs_get_module("obs-plugin-management"))
 		return;
 
-	//addOutputUI();
+	create_plugin_center_window();
 
 	obs_frontend_add_event_callback(obs_event, nullptr);
 }
