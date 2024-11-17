@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'plugincenter.ui'
 **
-** Created by: Qt User Interface Compiler version 5.15.2
+** Created by: Qt User Interface Compiler version 6.4.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -45,24 +45,30 @@ public:
     void setupUi(QDialog *OBSPluginManagement)
     {
         if (OBSPluginManagement->objectName().isEmpty())
-            OBSPluginManagement->setObjectName(QString::fromUtf8("OBSPluginManagement"));
-        OBSPluginManagement->resize(1219, 768);
+            OBSPluginManagement->setObjectName("OBSPluginManagement");
+        OBSPluginManagement->resize(1092, 706);
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(OBSPluginManagement->sizePolicy().hasHeightForWidth());
+        OBSPluginManagement->setSizePolicy(sizePolicy);
+        OBSPluginManagement->setMinimumSize(QSize(1000, 700));
         OBSPluginManagement->setSizeGripEnabled(false);
         gridLayout = new QGridLayout(OBSPluginManagement);
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setObjectName("gridLayout");
         verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setObjectName("verticalLayout");
         verticalLayout->setContentsMargins(-1, -1, -1, 0);
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setObjectName("horizontalLayout");
         horizontalLayout->setContentsMargins(-1, -1, -1, 0);
         searchEdit = new QLineEdit(OBSPluginManagement);
-        searchEdit->setObjectName(QString::fromUtf8("searchEdit"));
+        searchEdit->setObjectName("searchEdit");
 
         horizontalLayout->addWidget(searchEdit);
 
         searchButton = new QPushButton(OBSPluginManagement);
-        searchButton->setObjectName(QString::fromUtf8("searchButton"));
+        searchButton->setObjectName("searchButton");
 
         horizontalLayout->addWidget(searchButton);
 
@@ -75,21 +81,21 @@ public:
 
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(0);
-        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
+        horizontalLayout_4->setObjectName("horizontalLayout_4");
         treeView = new QTreeView(OBSPluginManagement);
-        treeView->setObjectName(QString::fromUtf8("treeView"));
-        treeView->setMaximumSize(QSize(300, 16777215));
+        treeView->setObjectName("treeView");
+        treeView->setMaximumSize(QSize(250, 16777215));
 
         horizontalLayout_4->addWidget(treeView);
 
         listView = new QListView(OBSPluginManagement);
-        listView->setObjectName(QString::fromUtf8("listView"));
-        listView->setMaximumSize(QSize(650, 16777215));
+        listView->setObjectName("listView");
+        listView->setMaximumSize(QSize(550, 16777215));
 
         horizontalLayout_4->addWidget(listView);
 
         pluginInfo = new QLabel(OBSPluginManagement);
-        pluginInfo->setObjectName(QString::fromUtf8("pluginInfo"));
+        pluginInfo->setObjectName("pluginInfo");
         pluginInfo->setMaximumSize(QSize(16777215, 16777215));
         pluginInfo->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
 
@@ -99,14 +105,14 @@ public:
         verticalLayout->addLayout(horizontalLayout_4);
 
         horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
+        horizontalLayout_5->setObjectName("horizontalLayout_5");
         horizontalLayout_5->setContentsMargins(-1, 0, -1, -1);
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_5->addItem(horizontalSpacer_2);
 
         website = new QLabel(OBSPluginManagement);
-        website->setObjectName(QString::fromUtf8("website"));
+        website->setObjectName("website");
 
         horizontalLayout_5->addWidget(website);
 

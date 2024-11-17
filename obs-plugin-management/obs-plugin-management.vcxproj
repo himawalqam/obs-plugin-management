@@ -11,18 +11,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ItemDelegate.cpp" />
+    <ClCompile Include="moc_ItemDelegate.cpp" />
     <ClCompile Include="moc_OPMMainWindow.cpp" />
     <ClCompile Include="opm-plugin.cpp" />
     <ClCompile Include="opm_main_window.cpp" />
+    <ClCompile Include="qrc_image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ItemDelegate.h" />
     <ClInclude Include="opm-plugin.h" />
     <ClInclude Include="opm_main_window.h" />
+    <ClInclude Include="opm_types.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ui_plugincenter.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="obs-plugin-management.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\image.qrc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ECEB20D1-C79B-4513-9D82-CB01F153DEE3}</ProjectGuid>
@@ -87,7 +95,10 @@ xcopy /E /Y "$(ProjectDir)data\" "D:\work-for-webrtc\obs-studio\build64\rundir\D
       <Message>Installing obs-plugin-management to OBS rundir</Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\bin\moc -o "$(ProjectDir)moc_OPMMainWindow.cpp" "$(ProjectDir)opm_main_window.h"</Command>
+      <Command>D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\bin\uic -o "$(ProjectDir)ui_plugincenter.h" "$(ProjectDir)forms\plugincenter.ui"
+D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\bin\moc -o "$(ProjectDir)moc_OPMMainWindow.cpp" "$(ProjectDir)opm_main_window.h"
+D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\bin\moc -o "$(ProjectDir)moc_ItemDelegate.cpp" "$(ProjectDir)ItemDelegate.h"
+D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\bin\rcc -o "$(ProjectDir)qrc_image.cpp" "$(ProjectDir)images\image.qrc"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
