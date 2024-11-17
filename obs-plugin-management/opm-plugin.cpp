@@ -66,6 +66,7 @@ static void obs_add_plugin_button()
 static void obs_event(enum obs_frontend_event event, void *)
 {
 	if (event == OBS_FRONTEND_EVENT_FINISHED_LOADING) {
+		create_plugin_center_window();
 		obs_add_plugin_button();
 	} else if (event == OBS_FRONTEND_EVENT_EXIT) {
 		
@@ -94,8 +95,6 @@ void obs_module_post_load(void)
 {
 	if (!obs_get_module("obs-plugin-management"))
 		return;
-
-	create_plugin_center_window();
 
 	obs_frontend_add_event_callback(obs_event, nullptr);
 }

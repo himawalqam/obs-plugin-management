@@ -1,4 +1,3 @@
-#include <obs-module.h>
 #include "opm_main_window.h"
 #include "ItemDelegate.h"
 #include <QJsonObject>
@@ -34,6 +33,7 @@ OPMMainWindow::OPMMainWindow(QWidget *parent)
 		   ~Qt::WindowMinimizeButtonHint);
 
     createTreeItem();
+    loadInstalledPlugin();
 }
 
 OPMMainWindow::~OPMMainWindow() {
@@ -74,7 +74,6 @@ void OPMMainWindow::createTreeItem()
 
     m_treeModel = new QStandardItemModel();
     ui.treeView->setModel(m_treeModel);
-    //ui.treeView->header()->hide();
     TreeItemDelegate *delegate = new TreeItemDelegate();
     delegate->setTreeView(ui.treeView);
     ui.treeView->setItemDelegate(delegate); 
@@ -84,92 +83,128 @@ void OPMMainWindow::createTreeItem()
     for (const auto &topLevelNode : tree.children) {
 	    addNodeToModel(m_treeModel->invisibleRootItem(), topLevelNode);
     }
+}
 
-    /*
+void OPMMainWindow::loadInstalledPlugin() {
+    obs_enum_sources(
+	    [](void *param, obs_source_t *source) {
+		    OPMMainWindow::ObsObjects *obsObjs =
+			    static_cast<OPMMainWindow::ObsObjects *>(param);
 
-    QStandardItem *installed = new QStandardItem(
-	    QString(obs_module_text("opm.installed")));
-    installed->setData(TreeItemClassInstalled,
-		       Qt::UserRole);
-    m_treeModel->appendRow(installed);
+		    const char *source_id = obs_source_get_id(source);
+		    const char *source_name = obs_source_get_name(source);
+		    obs_source_type type = obs_source_get_type(source);
+		    obs_module_t *_module = obs_get_module(source_name);
 
-    QStandardItem *online =
-	    new QStandardItem(QString(obs_module_text("opm.online")));
-    online->setData(TreeItemClassOnline, Qt::UserRole);
-
-    QStandardItem *onlineSource =
-	    new QStandardItem(QString(obs_module_text("opm.onlinesource")));
-    onlineSource->setData(TreeItemClassOnlineSource, Qt::UserRole);
-    online->appendRow(onlineSource);
-
-    QStandardItem *onlineOutput=
-	    new QStandardItem(QString(obs_module_text("opm.onlineoutput")));
-    onlineOutput->setData(TreeItemClassOnlineOutput, Qt::UserRole);
-    online->appendRow(onlineOutput);
-
-    QStandardItem *onlineEncoder =
-	    new QStandardItem(QString(obs_module_text("opm.onlineencoder")));
-    onlineEncoder->setData(TreeItemClassOnlineEncoder, Qt::UserRole);
-    online->appendRow(onlineEncoder);
-
-     QStandardItem *onlineService=
-	    new QStandardItem(QString(obs_module_text("opm.onlineservice")));
-    onlineService->setData(TreeItemClassOnlineService, Qt::UserRole);
-     online->appendRow(onlineService);
-
-    m_treeModel->appendRow(online);
-
-
-    QStandardItem *about =
-	    new QStandardItem(QString(obs_module_text("opm.about")));
-    about->setData(TreeItemClassOnline, Qt::UserRole);
-    m_treeModel->appendRow(about);
-
-    //1级目录
-    {
-	    QJsonObject obj;
-	    obj["level"] = 1;
-	    QVariant data = QVariant::fromValue(obj);
-	    root->setData(data);
-    }
-
-    //2级目录
-    QStringList list2;
-    list2 << QStringLiteral("猎杀小学生部") << QStringLiteral("猎杀妹妹部")
-	  << QStringLiteral("猎杀创业者部");
-    //3级目录
-    QStringList list3;
-    list3 << QStringLiteral("张三") << QStringLiteral("李四")
-	  << QStringLiteral("王麻子") << QStringLiteral("猴哥")
-	  << QStringLiteral("狗哥") << QStringLiteral("天狗哥")
-	  << QStringLiteral("花藤哥") << QStringLiteral("乌鸡哥")
-	  << QStringLiteral("陈浩南哥");
-
-    for (int i = 0; i < list2.size(); i++) {
-	    QStandardItem *item2 = new QStandardItem(list2.at(i));
-	    QJsonObject obj;
-	    obj["level"] = 2;
-	    QVariant data = QVariant::fromValue(obj);
-	    item2->setData(data);
-	    root->appendRow(item2);
-
-	    for (int j = 0; j < list3.size(); j++) {
-		    QStandardItem *item3 = new QStandardItem(list3.at(j));
-		    QJsonObject obj;
-		    obj["level"] = 3;
-		    if (j == list3.size() - 1) {
-			    obj["end"] = 1; //绘制结尾圆角标识
+		    if (_module && obsObjs) {
+			    if (type == OBS_SOURCE_TYPE_INPUT) {
+				    std::shared_ptr<ObsPluginDataSource> s =
+					   std::make_shared<ObsPluginDataSource>();
+				    s->source = source;
+				    s->bin_path =
+					    QString(obs_get_module_binary_path(_module));
+				    s->data_path = QString(
+					    obs_get_module_data_path(_module));
+				    s->file = QString(obs_get_module_file_name(_module));
+				    s->mod_name = QString(
+					    obs_get_module_name(_module));
+				    obsObjs->sources.push_back(s);
+			    } else if (type == OBS_SOURCE_TYPE_FILTER) {
+				    std::shared_ptr<ObsPluginDataSource> s =
+					    std::make_shared<
+						    ObsPluginDataSource>();
+				    s->source = source;
+				    s->bin_path =
+					    QString(obs_get_module_binary_path(
+						    _module));
+				    s->data_path = QString(
+					    obs_get_module_data_path(_module));
+				    s->file = QString(
+					    obs_get_module_file_name(_module));
+				    s->mod_name = QString(
+					    obs_get_module_name(_module));
+				    obsObjs->filters.push_back(s);
+			    } else if (type == OBS_SOURCE_TYPE_TRANSITION) {
+				    std::shared_ptr<ObsPluginDataSource> s =
+					    std::make_shared<
+						    ObsPluginDataSource>();
+				    s->source = source;
+				    s->bin_path =
+					    QString(obs_get_module_binary_path(
+						    _module));
+				    s->data_path = QString(
+					    obs_get_module_data_path(_module));
+				    s->file = QString(
+					    obs_get_module_file_name(_module));
+				    s->mod_name = QString(
+					    obs_get_module_name(_module));
+				    obsObjs->transitions.push_back(s);
+			    }
 		    }
-		    QVariant data = QVariant::fromValue(obj);
-		    item3->setData(data);
-		    item2->appendRow(item3);
+
+		    return true;
+
+	    },
+	    &obsObjs);
+
+     obs_enum_encoders(
+	    [](void *param, obs_encoder_t *encoder) {
+		    ObsObjects *obsObjects = static_cast<ObsObjects *>(param);
+
+		    const char *source_id = obs_encoder_get_id(encoder);
+		    const char *encoder_name = obs_encoder_get_name(encoder);
+		    obs_module_t *_module = obs_get_module(encoder_name);
+
+		    if (_module && obsObjects) {
+			    std::shared_ptr<ObsPluginDataEncoder> s =
+				    std::make_shared<ObsPluginDataEncoder>();
+			    s->encoder = encoder;
+			    s->bin_path = QString(
+				    obs_get_module_binary_path(_module));
+			    s->data_path =
+				    QString(obs_get_module_data_path(_module));
+			    s->file =
+				    QString(obs_get_module_file_name(_module));
+			    s->mod_name = QString(obs_get_module_name(_module));
+			    obsObjects->encoders.push_back(s);
+		    }
+		  
+		    return true;
+	    },
+	    &obsObjs);
+}
+
+QStandardItem* OPMMainWindow::findInstalledItem(const TreeItemClass& itemClass)
+{
+    QStandardItem *rootItem = m_treeModel->invisibleRootItem();
+
+    return findItem(rootItem, itemClass);
+}
+
+QStandardItem *OPMMainWindow::findOnlineItem(const TreeItemClass &itemClass)
+{
+    QStandardItem *rootItem = m_treeModel->invisibleRootItem();
+
+    return findItem(rootItem, itemClass);
+}
+
+QStandardItem *OPMMainWindow::findItem(QStandardItem *parent,
+				       const TreeItemClass &itemClass)
+{
+    for (int i = 0; i < parent->rowCount(); ++i) {
+	    QStandardItem *child = parent->child(i);
+	    QJsonObject obj = child->data(Qt::UserRole).toJsonObject();
+
+	    if (static_cast<TreeItemClass>(obj.value("level").toInt()) == itemClass) {
+		    return child; 
+	    }
+
+
+	    QStandardItem *found = findItem(child, itemClass);
+	    if (found) {
+		    return found;
 	    }
     }
 
-    m_tree->setModel(m_treeModel);
-    treeNode *node = new treeNode();
-    node->setTreeView(m_tree);
-    m_tree->setItemDelegate(node); //设置item的代理
-    m_tree->setHeaderHidden(true);
-    m_tree->setIndentation(0); //设置树每一级的缩进为0*/
+    return nullptr;
 }

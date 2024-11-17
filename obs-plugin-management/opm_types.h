@@ -5,6 +5,12 @@ enum class TreeItemClass
 {
 	Root,
 	Installed,
+	InstalledSource,
+	InstalledOutput,
+	InstalledEncoder,
+	InstalledService,
+	InstalledFilter,
+	InstalledTransition,
 	Online,
 	OnlineSource,
 	OnlineOutput,
