@@ -35,7 +35,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ECEB20D1-C79B-4513-9D82-CB01F153DEE3}</ProjectGuid>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.22621.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.22621.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -46,7 +46,7 @@
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <PlatformToolset>v143</PlatformToolset>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -68,6 +68,7 @@
     <TargetName>obs-plugin-management</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <TargetName>obs-plugin-management</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -99,7 +100,37 @@ xcopy /E /Y "$(ProjectDir)data\" "D:\work-for-webrtc\obs-studio\build64\rundir\D
 D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\bin\moc -o "$(ProjectDir)moc_OPMMainWindow.cpp" "$(ProjectDir)opm_main_window.h"
 D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\bin\moc -o "$(ProjectDir)moc_ItemDelegate.cpp" "$(ProjectDir)ItemDelegate.h"
 D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\bin\rcc -o "$(ProjectDir)qrc_image.cpp" "$(ProjectDir)images\image.qrc"</Command>
+      <Message>Compiling resoures file</Message>
     </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\work-for-webrtc\obs-studio\libobs;D:\work-for-webrtc\obs-studio\build64\config;D:\work-for-webrtc\obs-studio\UI\obs-frontend-api;D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;ENABLE_HEVC;HAVE_OBSCONFIG_H;QT_WIDGETS_LIB;QT_CORE_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;_WIN64;QT_GUI_LIB;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4127;4201;4456;4457;4458;4459;4595</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/work-for-webrtc/obs-build-dependencies/windows-deps-2023-04-12-x64/include/QtWidgets" /external:I "D:/work-for-webrtc/obs-build-dependencies/windows-deps-2023-04-12-x64/include" /external:I "D:/work-for-webrtc/obs-build-dependencies/windows-deps-2023-04-12-x64/include/QtCore" /external:I "D:/work-for-webrtc/obs-build-dependencies/windows-deps-2023-04-12-x64/mkspecs/win32-msvc" /external:I "D:/work-for-webrtc/obs-build-dependencies/windows-deps-2023-04-12-x64/include/QtGui" /Brepro /utf-8 /Zc:__cplusplus -Zc:__cplusplus -utf-8</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>..\..\..\..\build64\UI\obs-frontend-api\Release\obs-frontend-api.lib;..\..\..\..\build64\libobs\Release\obs.lib;D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\lib\Qt6Widgets.lib;D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\lib\Qt6Guid.lib;D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\lib\Qt6Core.lib;msvcrt.lib;ucrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <ShowProgress>NotSet</ShowProgress>
+    </Link>
+    <PreBuildEvent>
+      <Command>D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\bin\uic -o "$(ProjectDir)ui_plugincenter.h" "$(ProjectDir)forms\plugincenter.ui"
+D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\bin\moc -o "$(ProjectDir)moc_OPMMainWindow.cpp" "$(ProjectDir)opm_main_window.h"
+D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\bin\moc -o "$(ProjectDir)moc_ItemDelegate.cpp" "$(ProjectDir)ItemDelegate.h"
+D:\work-for-webrtc\obs-build-dependencies\windows-deps-2023-04-12-x64\bin\rcc -o "$(ProjectDir)qrc_image.cpp" "$(ProjectDir)images\image.qrc"</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy /Y "$(OutDir)\obs-plugin-management.dll" "D:\work-for-webrtc\obs-studio\build64\rundir\Release\obs-plugins\64bit\obs-plugin-management.dll"
+copy /Y "$(OutDir)\obs-plugin-management.exp" "D:\work-for-webrtc\obs-studio\build64\rundir\Release\obs-plugins\64bit\obs-plugin-management.exp"
+copy /Y "$(OutDir)\obs-plugin-management.pdb" "D:\work-for-webrtc\obs-studio\build64\rundir\Release\obs-plugins\64bit\obs-plugin-management.pdb"
+copy /Y "$(OutDir)\obs-plugin-management.lib" "D:\work-for-webrtc\obs-studio\build64\rundir\Release\obs-plugins\64bit\obs-plugin-management.lib"
+mkdir "D:\work-for-webrtc\obs-studio\build64\rundir\Release\data\obs-plugins\obs-plugin-management\"
+xcopy /E /Y "$(ProjectDir)data\" "D:\work-for-webrtc\obs-studio\build64\rundir\Release\data\obs-plugins\obs-plugin-management\"</Command>
+      <Message>Installing obs-plugin-management to OBS rundir</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
